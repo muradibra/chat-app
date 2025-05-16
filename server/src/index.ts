@@ -1,0 +1,28 @@
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+
+import "./config/db";
+
+import authRoutes from "./routes/auth.route";
+import messageRoutes from "./routes/message.route";
+
+import { app, server } from "./utils/socket";
+
+app.set("trust proxy", 1);
+
+app.use(express.json({ limit: "1mb" }));
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  })
+);
+app.use(cookieParser());
+
+app.use("/api/auth", authRoutes);
+app.use("/api/messages", messageRoutes);
+
+server.listen(process.env.PORT, () => {
+  console.log(`Server is running on ${process.env.PORT}`);
+});
