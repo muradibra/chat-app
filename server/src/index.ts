@@ -26,6 +26,15 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
+app.get("/test-cookie", (req, res) => {
+  res.cookie("test", "value", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
+  res.send("Test cookie sent");
+});
+
 server.listen(process.env.PORT, () => {
   console.log(`Server is running on ${process.env.PORT}`);
 });
